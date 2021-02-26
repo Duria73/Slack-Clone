@@ -1,7 +1,8 @@
 import React from 'react';
 import styled from "styled-components";
 import { useCollection } from "react-firebase-hooks/firestore"
-import { db } from '../firebase';
+import { useAuthState } from "react-firebase-hooks/auth"
+import { db, auth } from '../firebase';
 
 import SidebarOption from './SidebarOption';
 
@@ -22,15 +23,16 @@ import AddIcon from "@material-ui/icons/Add";
 
 function Sidebar() {
     const [channels, loading, error] = useCollection(db.collection("rooms"));
+    const [user] = useAuthState(auth);
 
     return (
         <SidebarContainer>
             <SidebarHeader>
                 <SidebarInfo>
-                    <h2>GridWork HQ</h2>
+                    <h2>Platoon HQ</h2>
                     <h3>
                         <FiberManualRecordIcon/>
-                        Alexander Duria
+                        {user?.displayName}
                     </h3>
                 </SidebarInfo>
                 <CreateIcon/>
@@ -44,8 +46,8 @@ function Sidebar() {
             <SidebarOption Icon={AppsIcon} title="Apps" />
             <SidebarOption Icon={FilesCopyIcon} title="File Browser" />
             <SidebarOption Icon={ExpandLessIcon} title="Show Less" />
-            <hr />
-            <SidebarOption Icon={ExpandMoreIcon} title="Show More" />
+            {/* <hr />
+            <SidebarOption Icon={ExpandMoreIcon} title="Show More" /> */}
             <hr />
             <SidebarOption Icon={AddIcon} addChannelOption title="Add Channel" />
 
